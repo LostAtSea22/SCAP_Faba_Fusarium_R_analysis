@@ -1,5 +1,5 @@
 # create output folder for cutadapt:
-path.2.cut <- file.path(path.0.project, "data", "2.cut")
+path.2.cut <- here("data", "2.cut")
 if(!dir.exists(path.2.cut)) dir.create(path.2.cut)
 names.2.cut.R1 <- file.path(path.2.cut, basename(names.1.data.R1))
 names.2.cut.R2 <- file.path(path.2.cut, basename(names.1.data.R2))
@@ -15,14 +15,22 @@ cutadapt <- "/usr/bin/cutadapt"
 cat(paste(system2("wsl", args = c(cutadapt, "--version"), stdout = TRUE, stderr = TRUE), collapse = "\n"), "\n")
 
 # # Primer sequences
-# f    <- "GCGGAAGGATCATTACCAC" #20250725_LL
-# r    <- "TCTTCATCGDTGTGCGAGC" #20250725_LL
-# f_rc <- dada2:::rc(f)
-# r_rc <- dada2:::rc(r)
+
+# Identify primer sequences (20251219 LL)
+f <- "GTCATCGGCCACGTCGACTCTGG" #fefF
+f.rc <- dada2:::rc(f)
+r <- "CCTTDCCGAGCTCRGCGGCTTCC" #fefR
+r.rc <- dada2:::rc(r)
+
+f
+f.rc
+r
+r.rc
+
+#' use the forward and reverse primer sequences in cutadapt
 
 flags.R1 <- paste("-g", f, "-a", r.rc) 
 flags.R2 <- paste("-G", r, "-A", f.rc) 
-
 
 # Make sure your file paths are Linux-style for WSL
 inR1  <- win_to_wsl(names.1.data.R1)

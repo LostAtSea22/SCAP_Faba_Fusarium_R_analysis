@@ -1,21 +1,3 @@
-#' ---
-#' title: "Evaluating the efficacy of FioreDono Primers for capturing Oomycetes using the Land Institute Root microbiome samples"
-#' subtitle: "00.loading_packages_v1.r"
-#' author: "Laura Los"
-#' date_written: 2025-08-01
-#' output: html_notebook
-#' ---
-
-#' Evaluating the efficacy of FioreDono Primers for capturing Oomycetes using the Land Institute Root microbiome samples (oomycete metabarcoding) 20250725 LL
-#' 
-#' Sequencing data generated using Illumina iSeq machine. (20250725 LL)
-#' 
-#' this script was run on the computer BU213-9YC1Z24 (20250725 LL)
-#' 
-#' saved as rmarkdown using `rmarkdown::render("00.loading_packages_v1.r", output_dir = here("scripts"))`
-#' 
-#' 
-
 #' Manually input pathway to reference database required for phyloseq analysis
 classification.ref.ITS <- "D:/reference_data/All_Eukaryotes/UNITE_10.0_sh_general_release_dynamic_all_04.04.2024.fasta"
 
