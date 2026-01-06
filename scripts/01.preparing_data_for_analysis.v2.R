@@ -6,8 +6,8 @@ print(paste("script name:", script_name))
 #' duration: none of these steps take very long
 
 # Finding your data
-path.0.project <- file.path(here()) # home directory, makes use of the package, "here"
-path.1.data <- file.path(path.0.project, "data", "1.data")
+# path.0.project <- file.path(here()) # home directory, makes use of the package, "here"
+# path.1.data <- file.path(path.0.project, "data", "1.data")
 list.files(path.1.data)
 
 # 28 files (20251219 LL)
@@ -21,10 +21,12 @@ sample.names <- unname(sapply(names.1.data.R1, get.sample.name))
 sample.names
 length(sample.names)
 # 15 samples (20250725 LL)
+# 14 samples (20260106 LL)
 
 metadata <- read_xlsx(here("data", "metadata.xlsx"))
 str(metadata) #str() function stands for "structure" and provides a compact, human-readable description of any R object.
 # 14 observations X 5 variables (20250725 LL)
+# 14 observations x 5 vairables 20260106 LL
 head(metadata)
 
 # expand names to include full path

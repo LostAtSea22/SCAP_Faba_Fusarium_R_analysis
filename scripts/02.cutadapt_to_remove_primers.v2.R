@@ -1,3 +1,7 @@
+# load R objects generated in previous steps
+names.1.data.R1 <- readRDS(names.1.data.R1, here("path.1.data","names.1.data.R1.rds"))
+names.1.data.R2 <- readRDS(names.1.data.R2, here("path.1.data", "names.1.data.R2.rds"))
+
 # create output folder for cutadapt:
 path.2.cut <- here("data", "2.cut")
 if(!dir.exists(path.2.cut)) dir.create(path.2.cut)
@@ -13,9 +17,9 @@ win_to_wsl <- function(p) {
 # Check cutadapt is reachable via WSL (should print a version line)
 cutadapt <- "/usr/bin/cutadapt"
 cat(paste(system2("wsl", args = c(cutadapt, "--version"), stdout = TRUE, stderr = TRUE), collapse = "\n"), "\n")
+# 3.5 20260106 LL
 
 # # Primer sequences
-
 # Identify primer sequences (20251219 LL)
 f <- "GTCATCGGCCACGTCGACTCTGG" #fefF
 f.rc <- dada2:::rc(f)
@@ -27,8 +31,7 @@ f.rc
 r
 r.rc
 
-#' use the forward and reverse primer sequences in cutadapt
-
+# use the forward and reverse primer sequences in cutadapt
 flags.R1 <- paste("-g", f, "-a", r.rc) 
 flags.R2 <- paste("-G", r, "-A", f.rc) 
 
@@ -41,6 +44,9 @@ outR2 <- win_to_wsl(names.2.cut.R2)
 # Optional: where to store per-sample logs (on Windows side, no conversion needed)
 log_dir <- here::here("logs")
 if (!dir.exists(log_dir)) dir.create(log_dir, recursive = TRUE)
+
+
+# run cutadapt ------------------------------------------------------------
 
 for (i in seq_along(inR1)) {
   msg <- sprintf("[%d/%d] Running cutadapt on %s", i, length(inR1), basename(inR1[i]))
@@ -89,7 +95,12 @@ for (i in seq_along(inR1)) {
   flush.console()
 }
 
-# Count number of reads in which the primer is found BEFORE cutadapt applied (this step takes some time)
+
+# Assess cutadapt output --------------------------------------------------
+## primer hits BEFORE cutadapt -----------------------------------------
+# Count number of reads in which the primer is found BEFORE cutadapt applied 
+# (this step takes some time)
+
 primerHits <- function(primer, names) {
   nhits <- vcountPattern(primer, sread(readFastq(names)), fixed = FALSE, max.mismatch = 1)
   return(sum(nhits > 0))
@@ -98,29 +109,45 @@ primerHits <- function(primer, names) {
 r1s <- sapply(c(f, r.rc), primerHits, names = names.1.data.R1)
 r1s
 # GCGGAAGGATCATTACCAC GCTCGCACAHCGATGAAGA (20250725 LL)
-#             2125006                   18704 
+# 2125006                   18704 
 
 # GTCATCGGCCACGTCGACTCTGG GGAAGCCGCYGAGCTCGGHAAGG (20251219_LL)
-#             1127082                  451021 
+# 1127082                  451021 
+
+# GTCATCGGCCACGTCGACTCTGG GGAAGCCGCYGAGCTCGGHAAGG (20260106 LL)
+# 1127082                  451021 
 
 r2s <- sapply(c(r, f.rc), primerHits, names = names.1.data.R2)
 r2s
 # TCTTCATCGDTGTGCGAGC GTGGTAATGATCCTTCCGC (20250725 LL)
-#             3661001               16290 
+# 3661001                  16290 
 
 # CCTTDCCGAGCTCRGCGGCTTCC CCAGAGTCGACGTGGCCGATGAC (20251219_LL)
-#             1584023               219019 
+# 1584023                  219019 
 
-# Count number of reads in which the primer is found AFTER cutadapt applied (this step takes some time)
+# CCTTDCCGAGCTCRGCGGCTTCC CCAGAGTCGACGTGGCCGATGAC (20260106 LL)
+# 1584023                  219019 
+
+## primer hits AFTER cutadapt  ---------------------------------------------
+# Count number of reads in which the primer is found AFTER cutadapt applied 
+# (this step takes some time)
+
 sapply(c(f, r.rc), primerHits, names = names.2.cut.R1)
 # GCGGAAGGATCATTACCAC GCTCGCACAHCGATGAAGA (20250725 LL)
-#                   0                   0 
+# 0                   0 
 
 # GTCATCGGCCACGTCGACTCTGG GGAAGCCGCYGAGCTCGGHAAGG (20251219_LL)
 # 1                       3 
+
+# GTCATCGGCCACGTCGACTCTGG GGAAGCCGCYGAGCTCGGHAAGG (20260106 LL)
+# 1                       3 
+
 sapply(c(r, f.rc), primerHits, names = names.2.cut.R2)
 # TCTTCATCGDTGTGCGAGC GTGGTAATGATCCTTCCGC (20250725 LL)
-#                   0                   0 
+# 0                   0 
 
 # CCTTDCCGAGCTCRGCGGCTTCC CCAGAGTCGACGTGGCCGATGAC (20251219_LL)
+# 0                       1 
+
+# CCTTDCCGAGCTCRGCGGCTTCC CCAGAGTCGACGTGGCCGATGAC (20260106 LL)
 # 0                       1 
