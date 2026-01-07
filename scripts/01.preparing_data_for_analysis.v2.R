@@ -6,8 +6,8 @@ print(paste("script name:", script_name))
 #' duration: none of these steps take very long
 
 # Finding your data
-# path.0.project <- file.path(here()) # home directory, makes use of the package, "here"
-# path.1.data <- file.path(path.0.project, "data", "1.data")
+path.0.project <- file.path(here()) # home directory, makes use of the package, "here"
+path.1.data <- file.path(path.0.project, "data", "1.data")
 list.files(path.1.data)
 
 # 28 files (20251219 LL)
@@ -15,10 +15,6 @@ list.files(path.1.data)
 # Sort ensures forward/reverse reads are in same order
 names.1.data.R1 <- sort(list.files(path.1.data, pattern = "_R1_001.fastq.gz")) #sort(...): This function sorts the list of filenames alphabetically
 names.1.data.R2 <- sort(list.files(path.1.data, pattern = "_R2_001.fastq.gz")) #pattern = : this function ensures only files that match this pattern are included in the list.
-
-# Save names.data object (used in later scripts)
-saveRDS(names.1.data.R1, file.path(path.1.data,"names.1.data.R1.rds"))
-saveRDS(names.1.data.R2, file.path(path.1.data, "names.1.data.R2.rds"))
 
 get.sample.name <- function(names) {strsplit(basename(names), "_")[[1]][1]}
 sample.names <- unname(sapply(names.1.data.R1, get.sample.name))
@@ -36,3 +32,8 @@ head(metadata)
 # expand names to include full path
 names.1.data.R1 <- file.path(path.1.data, names.1.data.R1)
 names.1.data.R2 <- file.path(path.1.data, names.1.data.R2)
+
+# Save names.data object (used in later scripts)
+saveRDS(names.1.data.R1, file.path(path.1.data,"names.1.data.R1.rds"))
+saveRDS(names.1.data.R2, file.path(path.1.data, "names.1.data.R2.rds"))
+

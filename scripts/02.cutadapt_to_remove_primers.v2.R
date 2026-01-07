@@ -1,6 +1,6 @@
 # load R objects generated in previous steps
-names.1.data.R1 <- readRDS(names.1.data.R1, here("path.1.data","names.1.data.R1.rds"))
-names.1.data.R2 <- readRDS(names.1.data.R2, here("path.1.data", "names.1.data.R2.rds"))
+names.1.data.R1 <- readRDS(file.path(path.1.data,"names.1.data.R1.rds"))
+names.1.data.R2 <- readRDS(file.path(path.1.data, "names.1.data.R2.rds"))
 
 # create output folder for cutadapt:
 path.2.cut <- here("data", "2.cut")
@@ -41,10 +41,11 @@ inR2  <- win_to_wsl(names.1.data.R2)
 outR1 <- win_to_wsl(names.2.cut.R1)
 outR2 <- win_to_wsl(names.2.cut.R2)
 
+inR1
+
 # Optional: where to store per-sample logs (on Windows side, no conversion needed)
 log_dir <- here::here("logs")
 if (!dir.exists(log_dir)) dir.create(log_dir, recursive = TRUE)
-
 
 # run cutadapt ------------------------------------------------------------
 

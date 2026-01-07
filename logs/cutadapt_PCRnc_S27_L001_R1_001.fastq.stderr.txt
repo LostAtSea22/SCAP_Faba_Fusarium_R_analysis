@@ -1,0 +1,39 @@
+This is cutadapt 3.5 with Python 3.10.12
+Command line parameters: -g GTCATCGGCCACGTCGACTCTGG -a GGAAGCCGCYGAGCTCGGHAAGG -G CCTTDCCGAGCTCRGCGGCTTCC -A CCAGAGTCGACGTGGCCGATGAC -n 2 --discard-untrimmed --pair-filter=any --minimum-length 50 --max-n 0 -o /mnt/d/Sequencing_Data_MiSeq/working_copies/251215_M06430_0030_000000000-M9JJFC/SCAP_Faba_Fusarium_R_analysis/data/2.cut2/PCRnc_S27_L001_R1_001.fastq.gz -p /mnt/d/Sequencing_Data_MiSeq/working_copies/251215_M06430_0030_000000000-M9JJFC/SCAP_Faba_Fusarium_R_analysis/data/2.cut2/PCRnc_S27_L001_R2_001.fastq.gz /mnt/d/Sequencing_Data_MiSeq/working_copies/251215_M06430_0030_000000000-M9JJFC/SCAP_Faba_Fusarium_R_analysis/data/2.cut/PCRnc_S27_L001_R1_001.fastq.gz /mnt/d/Sequencing_Data_MiSeq/working_copies/251215_M06430_0030_000000000-M9JJFC/SCAP_Faba_Fusarium_R_analysis/data/2.cut/PCRnc_S27_L001_R2_001.fastq.gz
+Processing reads on 1 core in paired-end mode ...
+Finished in 0.04 s (227 µs/read; 0.26 M reads/minute).
+
+=== Summary ===
+
+Total read pairs processed:                194
+  Read 1 with adapter:                       0 (0.0%)
+  Read 2 with adapter:                       0 (0.0%)
+
+== Read fate breakdown ==
+Pairs that were too short:                   0 (0.0%)
+Pairs with too many N:                       0 (0.0%)
+Pairs discarded as untrimmed:              194 (100.0%)
+Pairs written (passing filters):             0 (0.0%)
+
+Total basepairs processed:        97,932 bp
+  Read 1:        47,068 bp
+  Read 2:        50,864 bp
+Total written (filtered):              0 bp (0.0%)
+  Read 1:             0 bp
+  Read 2:             0 bp
+
+=== First read: Adapter 1 ===
+
+Sequence: GTCATCGGCCACGTCGACTCTGG; Type: regular 5'; Length: 23; Trimmed: 0 times
+
+=== First read: Adapter 2 ===
+
+Sequence: GGAAGCCGCYGAGCTCGGHAAGG; Type: regular 3'; Length: 23; Trimmed: 0 times
+
+=== Second read: Adapter 3 ===
+
+Sequence: CCTTDCCGAGCTCRGCGGCTTCC; Type: regular 5'; Length: 23; Trimmed: 0 times
+
+=== Second read: Adapter 4 ===
+
+Sequence: CCAGAGTCGACGTGGCCGATGAC; Type: regular 3'; Length: 23; Trimmed: 0 times
