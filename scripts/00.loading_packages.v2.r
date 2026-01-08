@@ -30,3 +30,4 @@ path.0.project <- file.path(here()) # home directory, makes use of the package, 
 
 # Set u beepr to notify you when Rstudio completes a step
 # notify_when_idle <- function() {while(TRUE) {if (!any(grepl("R", ps -A$output()))) {beep() break} Sys.sleep(5)}}
+beep("mario")
