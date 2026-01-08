@@ -5,39 +5,47 @@ path.6.phyloseq <- file.path(here("data", "6.phyloseq_on_all_merged_reads"))
 if(!dir.exists(path.6.phyloseq)) dir.create(path.6.phyloseq)
 
 #' # Import Data
+#' import Metadata
+metadata <- read_xlsx(here("data", "metadata.xlsx"))
 
 #' ## Import ASVs (amplicon sequence variants)
 #' I wanted to assign taxonomy to all reads (not just those that ITSx assigns to oomycetes)
 #' therefore I will extract the ASVs from the column headings of the dada2 table (seqtab)
-seqtab <- read.csv(file.path(here("data", "4.dada", "2025-08-01SeqTable_chimeras_rm_merged_pairs.csv")))
-seqtab <- t(seqtab)
-seqtab <- as.data.frame(seqtab)
-seqtab$ASV <- rownames(seqtab)
-rownames(seqtab) <- NULL
-ASVs.df <- seqtab[-1,"ASV"]
-ASVs.df <- as.data.frame(ASVs.df)
-nrow(ASVs.df)
 
 #' import the Sequence Table which is essentially a matrix where the rownames are your sample names, each column is an ASV and the values are the relative counts or hits for each ASV in the sample
 #' note the seqtab contains all ASVs assigned by dada2 with chimeras removed, from mereged pairs
-seqtab <- read.csv(file.path(here("data", "4.dada", "2025-08-01SeqTable_chimeras_rm_merged_pairs.csv")))
+seqtab <- read.csv(file.path(here("data", "4.dada", "2026-01-07SeqTable_chimeras_rm_merged_pairs.csv")))
+beep("mario")
+
+
+# seqtab <- t(seqtab)
+# seqtab <- as.data.frame(seqtab)
+# seqtab$ASV <- rownames(seqtab)
+# rownames(seqtab) <- NULL
+# ASVs.df <- seqtab[-1,"ASV"]
+# ASVs.df <- as.data.frame(ASVs.df)
+# nrow(ASVs.df)
+# 20260108 5043
+
 seqtab # the column X contains sample names, need to make this the row names
 rownames(seqtab) <- seqtab[,"X"] #make column X values the rownames
 seqtab <- select(seqtab, -X) #remove column X
 dim(seqtab)
 print(paste(Sys.Date(), "-", dim(seqtab)[1],"samples and", dim(seqtab)[2], "sequence variants"))
+# "2026-01-08 - 5044 samples and 15 sequence variants"
 
 #' # load taxonomy table created from ITSx ASVs analysed against UNITE Fungal Database using dada2::assignTaxonomy
 load(file.path(path.6.phyloseq, "taxtab.RData"))
 dim(taxtab)
 print(paste(Sys.Date(), "-", dim(taxtab)[1],"sequence variants (ASVs) and", dim(taxtab)[2], "taxonomic ranks"))
 #' rows are sequence variants (ASVs), 7 columns expected (7 taxonomic ranks) 
+# 2026-01-08 - 5043 sequence variants (ASVs) and 7 taxonomic ranks
 
 #' # rename seqtab to seqtab.ASVs (artifact of the alternate scripts for processing post ITSx ASVs)
 seqtab.ASVs <- seqtab
 dim(seqtab.ASVs)
-print(paste(Sys.Date(), "-", dim(seqtab.ASVs)[1],"samples and", dim(seqtab.ASVs)[2], "sequence variants from ITS filtering step"))
-
+print(paste(Sys.Date(), "-", dim(seqtab.ASVs)[1],"samples and", dim(seqtab.ASVs)[2], "sequence variants"))
+# 2026-01-08 - 14 samples and 5043 sequence variants
 
 #' # Remove Negative Control in data 
 # metadata <- metadata[-10, ] 
@@ -107,9 +115,13 @@ OTU.table <- as.data.frame(otu_table(ps.object))
 colnames(OTU.table) #sequences
 rownames(OTU.table) #sample_IDs
 print(paste(Sys.Date(), "-", dim(OTU.table)[2], "samples and", dim(OTU.table)[1], "ASVs"))
+# 2026-01-08 - 14 samples and 5043 ASVs
+
 
 taxonomy <- as.data.frame(tax_table(ps.object)) # this has your sequences as rownames and the taxonomic assignments as colnames
 print(paste(Sys.Date(), "-", dim(taxonomy)[1], "ASVs and", dim(taxonomy)[2], "Taxonomic Kingdoms"))
+# 2026-01-08 - 5043 ASVs and 7 Taxonomic Kingdoms
+
 
 # confirm that the OTU Table and taxonomy table have matching rownames (ASV sequences)
 all(rownames(taxonomy) == rownames(OTU.table))
@@ -130,3 +142,4 @@ head(species.abundance)
 # save merged Taxonomy Abundance File
 save(species.abundance, file = file.path(path.6.phyloseq, "species.abundance.RData")) # save phyloseq object as .RData 
 write_xlsx(species.abundance, file.path(path.6.phyloseq, "species.abundance.xlsx"))
+
