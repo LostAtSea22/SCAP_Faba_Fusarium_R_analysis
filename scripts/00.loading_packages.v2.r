@@ -1,11 +1,11 @@
 #' Manually input pathway to reference database required for phyloseq analysis
 classification.ref.ITS <- "D:/reference_data/All_Eukaryotes/UNITE_10.0_sh_general_release_dynamic_all_04.04.2024.fasta"
-fusarioid.db <- "D:/reference_data/Fusaria/FUSARIOID-ID_v20251231/fusarioidIDversion31122025.fasta"
+fusarioid.db <- "D:/reference_data/Fusaria/FUSARIOID-ID_v20251231/fusarioidIDversion31122025_dada2_format_manual.fasta"
 
 #' Load packages
 cran_packages <- c("ggplot2", "stats", "scales", "gridExtra", "hexbin", "knitr", "lme4", 
                    "lmerTest", "pheatmap", "picante", "plyr", "beepr",
-                   "RColorBrewer", "reshape2", "dplyr", "tidyr", "vegan", "here", "writexl", "readxl")
+                   "RColorBrewer", "reshape2", "dplyr", "tidyr", "vegan", "here", "writexl", "readxl", "MiscMetabar")
 inst <- cran_packages %in% installed.packages()
 if(any(!inst)) {
   install.packages(cran_packages[!inst])
